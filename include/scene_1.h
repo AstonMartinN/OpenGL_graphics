@@ -27,6 +27,7 @@ public:
     void draw();
     void draw_cube();
     void draw_texture();
+    void draw_gauss_filter();
 private:
     int32_t m_window_width = -1;
     int32_t m_window_height = -1;
@@ -38,12 +39,16 @@ private:
 
     ShaderProgram m_shader_program_texture;
     ShaderProgram m_shader_program_cube;
+    ShaderProgram m_shader_gauss_3x3;
 
     GLfloat m_cube_current_algle = 0.0f;
     glm::vec3 m_cube_position = glm::vec3(0.0f);
 
     static constexpr GLsizei NUM_OF_FRAMES = 2u;
     GLuint m_frames_textures[NUM_OF_FRAMES] = {0u, 0u};
+    GLuint m_frames_postorocess[NUM_OF_FRAMES] = {0u, 0u};
+    GLuint m_draw_framebuffer;
+    GLint m_tex_width, m_tex_height;
 
     uint32_t m_current_frame = 0u;
 
