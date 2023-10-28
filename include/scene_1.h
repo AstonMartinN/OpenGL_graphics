@@ -1,6 +1,8 @@
 #ifndef SCENE_1
 #define SCENE_1
 
+#include "scene_base.h"
+
 #include <vector>
 #include <chrono>
 
@@ -12,7 +14,7 @@
 
 namespace scene_1 {
     
-class Scene_1 {
+class Scene_1 : public scene_base::Scene_base {
 public:
     Scene_1() = default;
     Scene_1(const Scene_1 &)=delete;
@@ -22,16 +24,13 @@ public:
     ~Scene_1();
 
     bool init(int32_t width, int32_t height);
-    void set_window_size(int32_t width, int32_t height);
 
     void draw();
+
     void draw_cube();
     void draw_texture();
     void draw_gauss_filter();
 private:
-    int32_t m_window_width = -1;
-    int32_t m_window_height = -1;
-
     camera::Camera m_camera;
 
     GLuint m_cube_vbo = 0u;
@@ -51,14 +50,6 @@ private:
     GLint m_tex_width, m_tex_height;
 
     uint32_t m_current_frame = 0u;
-
-    constexpr static uint16_t m_num_of_timings = 16u;
-    uint16_t m_timing_index = 0u;
-    constexpr static uint16_t m_fps_print_num = 240u;
-    uint16_t m_fps_print_count = 0u;
-    std::vector<uint64_t> m_frame_timings{};
-    std::chrono::time_point<std::chrono::steady_clock> m_last_time{};
-    void check_FPS();
 };
 
 } // namespace scene_1

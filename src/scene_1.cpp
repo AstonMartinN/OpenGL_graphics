@@ -22,8 +22,8 @@ constexpr static float cube_vertices[] = {
 };
 
 bool Scene_1::init(int32_t width, int32_t height) {
-
-    set_window_size(width, height);
+    m_window_width = width;
+    m_window_height = height;
 
     glGenVertexArrays(1, &m_cube_vao);
     glGenBuffers(1, &m_cube_vbo);
@@ -101,17 +101,12 @@ Scene_1::~Scene_1() {
     glDeleteFramebuffers(1, &m_draw_framebuffer);
 }
 
-void Scene_1::set_window_size(int32_t width, int32_t height) {
-    m_window_width = width;
-    m_window_height = height;
-}
-
 void Scene_1::draw() {
     draw_gauss_filter();
     draw_texture();
     draw_cube();
 
-    check_FPS();
+    check_fps();
 }
 
 void Scene_1::draw_cube() {
@@ -194,19 +189,6 @@ void Scene_1::draw_gauss_filter() {
     glViewport(0, 0, m_tex_width, m_tex_height);
     glBindVertexArray(m_cube_vao);
     glDrawArrays(GL_TRIANGLES, 0, 3);
-}
-
-void Scene_1::check_FPS() {
-    auto new_time = std::chrono::steady_clock::now();
-    m_frame_timings[m_timing_index] = std::chrono::duration_cast<std::chrono::microseconds>(new_time - m_last_time).count();
-    m_timing_index = (m_timing_index + 1u) % m_num_of_timings;
-    m_last_time = std::move(new_time);
-    
-    m_fps_print_count = (m_fps_print_count + 1u) % m_fps_print_num;
-    if(m_fps_print_count == 0u) {
-        uint32_t sum = std::accumulate(m_frame_timings.begin(), m_frame_timings.end(), 0u);
-        std::cout << "FPS = " << 1e6 / (static_cast<float>(sum) / static_cast<float>(m_num_of_timings)) << std::endl;
-    }
 }
 
 } // namespace scene_1

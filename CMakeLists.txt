@@ -27,6 +27,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 )
 
 set(scenes_SOURCES
+    ${PROJECT_SOURCE_DIR}/src/scene_base.cpp
     ${PROJECT_SOURCE_DIR}/src/scene_1.cpp
 )
 add_library(scenes STATIC ${scenes_SOURCES})
